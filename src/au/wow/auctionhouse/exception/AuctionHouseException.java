@@ -1,6 +1,5 @@
 package au.wow.auctionhouse.exception;
 
-import java.io.IOException;
 
 public class AuctionHouseException extends Throwable {
 
