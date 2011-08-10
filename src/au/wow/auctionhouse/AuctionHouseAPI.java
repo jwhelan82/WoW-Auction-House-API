@@ -1,5 +1,8 @@
 package au.wow.auctionhouse;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import au.wow.auctionhouse.comms.AuctionHouseComms;
 import au.wow.auctionhouse.dao.AuctionHouseDAO;
 import au.wow.auctionhouse.model.AuctionHouseSnapshot;
@@ -23,6 +26,9 @@ public class AuctionHouseAPI {
 			String path = args.length == 1? args[0] : DEFAULT_FILEPATH;
 			
 			AuctionHouseSnapshot snapshot = null;
+			Date today = new Date();
+			SimpleDateFormat df = new SimpleDateFormat("dd-MM-yy");
+			path += "\\" + df.format(today);
 			
 			AuctionHouseComms ahComms = new AuctionHouseComms();
 			ahComms.setProxyHost("192.168.105.2");
@@ -39,7 +45,7 @@ public class AuctionHouseAPI {
 			if (created) {
 				System.out.print("Saved auction file: " + path + "\\" + snapshotDetails.getLastModified());
 			} else {
-				System.out.print("Snapshot " + snapshotDetails.getLastModified() + " already exists.");
+				System.out.print("Snapshot " + path + "\\" + snapshotDetails.getLastModified() + " already exists.");
 			}
 			
 			
