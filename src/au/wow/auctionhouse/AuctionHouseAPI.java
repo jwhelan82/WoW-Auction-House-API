@@ -5,6 +5,7 @@ import java.util.Date;
 
 import au.wow.auctionhouse.comms.AuctionHouseComms;
 import au.wow.auctionhouse.dao.AuctionHouseDAO;
+import au.wow.auctionhouse.dao.AuctionHouseDAOImpl;
 import au.wow.auctionhouse.model.AuctionHouseSnapshot;
 import au.wow.auctionhouse.model.AuctionHouseSnapshotDetails;
 
@@ -31,10 +32,8 @@ public class AuctionHouseAPI {
 			path += "\\" + df.format(today);
 			
 			AuctionHouseComms ahComms = new AuctionHouseComms();
-			ahComms.setProxyHost("192.168.105.2");
-			ahComms.setProxyPort(3128);
 			AuctionHouseSnapshotDetails snapshotDetails = ahComms.getAuctionHouseSnapshotDetails();
-			AuctionHouseDAO dao = new AuctionHouseDAO();
+			AuctionHouseDAO dao = new AuctionHouseDAOImpl();
 			boolean created = false;
 			
 			if (!dao.isLatestSnapshot(path, snapshotDetails)) {

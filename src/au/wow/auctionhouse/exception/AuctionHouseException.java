@@ -15,5 +15,9 @@ public class AuctionHouseException extends Throwable {
 	public AuctionHouseException(Exception e) {
 		super(e);
 	}
+
+	public AuctionHouseException(String msg) {
+		super(msg);
+	}
 	
 }

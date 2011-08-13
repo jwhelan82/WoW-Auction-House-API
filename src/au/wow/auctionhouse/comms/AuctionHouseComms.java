@@ -1,13 +1,7 @@
 package au.wow.auctionhouse.comms;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.net.Proxy.Type;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +9,7 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Document;
 
 import au.wow.auctionhouse.exception.AuctionHouseException;
 import au.wow.auctionhouse.model.AuctionDuration;
@@ -22,6 +17,7 @@ import au.wow.auctionhouse.model.AuctionHouseSnapshot;
 import au.wow.auctionhouse.model.AuctionHouseSnapshotDetails;
 import au.wow.auctionhouse.model.AuctionItem;
 import au.wow.auctionhouse.model.Faction;
+import au.wow.common.util.HttpUtils;
 
 /**
  * TODO since there is a lot of information being retrieved, it is possible that 
@@ -49,6 +45,11 @@ public class AuctionHouseComms {
 	
 	private String proxyHost;
 	private int proxyPort;
+	
+	public AuctionHouseComms() {
+		proxyPort = -1;
+		proxyHost = null;
+	}
 	
 	public AuctionHouseSnapshotDetails getAuctionHouseSnapshotDetails() throws AuctionHouseException {
 		return getAuctionHouseSnapshotDetails(DEFAULT_REALM);
@@ -158,27 +159,7 @@ public class AuctionHouseComms {
 		return snapshot;
 	}
 
-	private HttpURLConnection getHttpConnection(String URL) throws IOException {
-		URL url = new URL(URL);
-		
-		Proxy proxy = null;
-		
-		if (proxyHost != null && proxyPort > 0) {
-			proxy = new Proxy(Type.HTTP, new InetSocketAddress(proxyHost, proxyPort));
-		}
-		
-		HttpURLConnection connection = (HttpURLConnection) (proxy == null ? 
-				url.openConnection() : url.openConnection(proxy));
-	
-		connection.setRequestMethod(GET);
 
-		connection.setAllowUserInteraction(false);
-		connection.setUseCaches(false);
-		connection.setDoOutput(true);
-		connection.setDoInput(true);
-
-		return connection;
-	}
 
 	/**
 	 * Takes a URL and returns a JSON object based on the returned input stream data.
@@ -191,26 +172,21 @@ public class AuctionHouseComms {
 	 */
 	private JSONObject getJSONFromUrl(String url) throws IOException, JSONException {
 		
-		HttpURLConnection conn = getHttpConnection(url);
-		BufferedInputStream bis = new BufferedInputStream(conn.getInputStream());
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		
-		byte[] data = new byte[32768];
-		int len = 0;
-		
-		while ((len = bis.read(data)) > 0) {
-			baos.write(data, 0, len);
-		}
-		
-		return new JSONObject(baos.toString());
+		HttpURLConnection conn = HttpUtils.getHttpConnection(url, proxyHost, proxyPort);
+		String results = HttpUtils.getOutputStringFromConnection(conn);
+		return new JSONObject(results);
 	}
 	
-	public String getProxyHost() {
-		return proxyHost;
-	}
-
-	public void setProxyHost(String proxyHost) {
-		this.proxyHost = proxyHost;
+	/**
+	 * From some XML document, create a JSON object from some embedded JSON.
+	 * 
+	 * @param doc
+	 * @param elementName
+	 * @return JSONObject 
+	 */
+	private JSONObject getJSONFromXml(Document doc, String elementName) {
+	
+		return null;
 	}
 
 	public int getProxyPort() {
