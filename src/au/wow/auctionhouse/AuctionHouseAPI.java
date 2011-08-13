@@ -32,6 +32,8 @@ public class AuctionHouseAPI {
 			path += "\\" + df.format(today);
 			
 			AuctionHouseComms ahComms = new AuctionHouseComms();
+			//ahComms.setProxyHost("192.168.105.2");
+			//ahComms.setProxyPort(3128);
 			AuctionHouseSnapshotDetails snapshotDetails = ahComms.getAuctionHouseSnapshotDetails();
 			AuctionHouseDAO dao = new AuctionHouseDAOImpl();
 			boolean created = false;
