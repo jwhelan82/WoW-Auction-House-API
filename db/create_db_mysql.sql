@@ -11,19 +11,19 @@ create table updates (
 );
 
 
-create table player (
+create table players (
 	player_id varchar(20) primary key,
 	realm varchar(40) not null,
 	faction char(1) not null,
 	constraint player_faction check (faction in ('H', 'A'))
 );
 
-create table item (
+create table items (
 	item_id decimal(6,0) primary key,
 	item_name varchar(256)
 );
 
-create table auction (
+create table auctions (
 	auction_id decimal(9,0) not null,
 	update_id integer not null,
 	item_id decimal(6,0) not null,
@@ -35,8 +35,8 @@ create table auction (
 	time_left char(1),
 	primary key (auction_id, update_id),
 	foreign key (update_id) references updates(update_id),
-	foreign key (item_id) references item(item_id),
-	foreign key (player_id) references player(player_id),
+	foreign key (item_id) references items(item_id),
+	foreign key (player_id) references players(player_id),
 	constraint auction_ah check (auction_house in ('A', 'H', 'N')),
 	constraint auction_tl check (time_left in ('S', 'M', 'L', 'V'))
 );

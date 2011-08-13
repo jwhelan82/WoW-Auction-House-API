@@ -3,10 +3,11 @@ package au.wow.auctionhouse;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.json.JSONObject;
+
 import au.wow.auctionhouse.comms.AuctionHouseComms;
 import au.wow.auctionhouse.dao.AuctionHouseDAO;
 import au.wow.auctionhouse.dao.AuctionHouseDAOImpl;
-import au.wow.auctionhouse.model.AuctionHouseSnapshot;
 import au.wow.auctionhouse.model.AuctionHouseSnapshotDetails;
 
 /**
@@ -26,7 +27,7 @@ public class AuctionHouseAPI {
 			// TODO add some code to make this run at some regular interval
 			String path = args.length == 1? args[0] : DEFAULT_FILEPATH;
 			
-			AuctionHouseSnapshot snapshot = null;
+			JSONObject snapshot = null;
 			Date today = new Date();
 			SimpleDateFormat df = new SimpleDateFormat("dd-MM-yy");
 			path += "\\" + df.format(today);
@@ -39,8 +40,8 @@ public class AuctionHouseAPI {
 			boolean created = false;
 			
 			if (!dao.isLatestSnapshot(path, snapshotDetails)) {
-				snapshot = ahComms.getAuctionHouseSnapshot(snapshotDetails);
-				created = dao.saveAuctionHouseSnapshotToFile(path, snapshotDetails, snapshot);
+				snapshot = ahComms.getAuctionHouseData(snapshotDetails);
+				created = dao.saveAuctionHouseDataToFile(path, snapshotDetails, snapshot);
 			}
 			
 			if (created) {
