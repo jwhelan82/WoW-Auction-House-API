@@ -2,6 +2,7 @@ package au.wow.auctionhouse.retriever;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.json.JSONObject;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
@@ -47,8 +48,8 @@ public class AuctionDataRetrievalJob implements Job {
 			boolean created = false;
 			
 			if (!dao.isLatestSnapshot(path, snapshotDetails)) {
-				snapshot = ahComms.getAuctionHouseSnapshot(snapshotDetails);
-				created = dao.saveAuctionHouseSnapshotToFile(path, snapshotDetails, snapshot);
+				JSONObject jsonData = ahComms.getAuctionHouseData(snapshotDetails);
+				created = dao.saveAuctionHouseDataToFile(path, snapshotDetails, jsonData);
 			}
 			
 			if (created) {
