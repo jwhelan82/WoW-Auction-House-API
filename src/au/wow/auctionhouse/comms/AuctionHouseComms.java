@@ -92,6 +92,14 @@ public class AuctionHouseComms {
 	}
 	
 	
+	public JSONObject getAuctionHouseData(AuctionHouseSnapshotDetails snapshotDetails) throws AuctionHouseException {
+		try {
+			return getJSONFromUrl(snapshotDetails.getUrl());
+		} catch (Exception e) {
+			throw new AuctionHouseException();
+		} 
+	}
+	
 	/**
 	 * Returns a populated object of the auction house data.  This method should only be called
 	 * after retrieving a snapshot of the auction house details and determining whether a refresh

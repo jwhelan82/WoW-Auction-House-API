@@ -7,9 +7,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
+
+import org.json.JSONObject;
 
 import au.wow.auctionhouse.exception.AuctionHouseException;
 import au.wow.auctionhouse.model.AuctionHouseSnapshot;
@@ -83,7 +83,7 @@ public class AuctionHouseDAOImpl implements AuctionHouseDAO {
 	 * @see au.wow.auctionhouse.dao.AuctionHouseDAO#saveAuctionHouseSnapshotToFile(java.lang.String, au.wow.auctionhouse.model.AuctionHouseSnapshotDetails, au.wow.auctionhouse.model.AuctionHouseSnapshot)
 	 */
 	@Override
-	public boolean saveAuctionHouseSnapshotToFile(String path, AuctionHouseSnapshotDetails snapshotDetails, AuctionHouseSnapshot snapshot) throws AuctionHouseException {
+	public boolean saveAuctionHouseDataToFile(String path, AuctionHouseSnapshotDetails snapshotDetails, JSONObject auctionHouseData) throws AuctionHouseException {
 		try {
 			
 			BufferedWriter writer;
@@ -93,18 +93,9 @@ public class AuctionHouseDAOImpl implements AuctionHouseDAO {
 			if (!file.exists()) {
 				file.createNewFile();
 				writer = new BufferedWriter(new FileWriter(file));
-				
-				// write auction house data to file
-				for (Faction faction : Faction.values()) {
-					writer.write(faction.toString());
-					writer.newLine();
-					List<AuctionItem> items = snapshot.getAuctions(faction);
-
-					for (AuctionItem item : items) {
-						writer.write(item.toString());
-						writer.newLine();
-					}
-				}
+			
+				writer.write(auctionHouseData.toString());
+			
 				writer.flush();
 				writer.close();
 				
@@ -116,9 +107,7 @@ public class AuctionHouseDAOImpl implements AuctionHouseDAO {
 		}
 	}
 	
-	public AuctionHouseSnapshot readAuctionHouseSnapshotFromFile(String path) throws AuctionHouseException {
-		
-		AuctionHouseSnapshot snapshot = null;
+	public JSONObject readAuctionHouseSnapshotFromFile(String path) throws AuctionHouseException {
 		
 		try {
 			File snapshotFile = new File(path);
@@ -131,24 +120,18 @@ public class AuctionHouseDAOImpl implements AuctionHouseDAO {
 			// auction items later.
 			BufferedReader reader = new BufferedReader(new FileReader(snapshotFile));
 			String input = reader.readLine();
-			List<String> lines = new ArrayList<String>();
+			StringBuffer lines = new StringBuffer();
 			
 			while(input != null) {
-				lines.add(input);
+				lines.append(input);
 				input = reader.readLine();
 			}
-		
-			List<AuctionItem> allianceAuctions = new ArrayList<AuctionItem>();
-			List<AuctionItem> hordeAuctions = new ArrayList<AuctionItem>();
-			List<AuctionItem> neutralAuctions = new ArrayList<AuctionItem>();
 			
-			
-			
-			
+			return new JSONObject(lines.toString());
 		} catch (Exception e) {
 			
 		}
-		return snapshot;
+		return null;
 	}
 	
 	/**
