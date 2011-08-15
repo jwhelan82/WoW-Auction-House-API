@@ -197,4 +197,8 @@ public class AuctionHouseComms implements AuctionHouseConstants {
 	public void setProxyPort(int proxyPort) {
 		this.proxyPort = proxyPort;
 	}
+
+	public void setProxyHost(String proxyHost) {
+		this.proxyHost = proxyHost;
+	}
 }
