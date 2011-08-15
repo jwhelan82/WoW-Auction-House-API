@@ -7,14 +7,15 @@ import org.json.JSONObject;
 
 import au.wow.auctionhouse.comms.AuctionHouseComms;
 import au.wow.auctionhouse.dao.AuctionHouseDAO;
-import au.wow.auctionhouse.dao.AuctionHouseDAOImpl;
+import au.wow.auctionhouse.dao.AuctionHouseDAOFileImpl;
 import au.wow.auctionhouse.model.AuctionHouseSnapshotDetails;
 
 /**
  * Simple class to retrieve auction house snapshots and save them for later use.
 
  * @author James Whelan
- *
+ * 
+ * @deprecated
  */
 public class AuctionHouseAPI {
 
@@ -36,7 +37,7 @@ public class AuctionHouseAPI {
 			//ahComms.setProxyHost("192.168.105.2");
 			//ahComms.setProxyPort(3128);
 			AuctionHouseSnapshotDetails snapshotDetails = ahComms.getAuctionHouseSnapshotDetails();
-			AuctionHouseDAO dao = new AuctionHouseDAOImpl();
+			AuctionHouseDAO dao = new AuctionHouseDAOFileImpl();
 			boolean created = false;
 			
 			if (!dao.isLatestSnapshot(path, snapshotDetails)) {

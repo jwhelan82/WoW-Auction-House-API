@@ -29,7 +29,7 @@ import au.wow.auctionhouse.model.Faction;
  * @author James Whelan
  *
  */
-public class AuctionHouseDAOImpl implements AuctionHouseDAO {
+public class AuctionHouseDAOFileImpl implements AuctionHouseDAO {
 	
 	/* (non-Javadoc)
 	 * @see au.wow.auctionhouse.dao.AuctionHouseDAO#isLatestSnapshot(java.lang.String, au.wow.auctionhouse.model.AuctionHouseSnapshotDetails)

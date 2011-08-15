@@ -9,4 +9,9 @@ public interface AuctionHouseConstants {
 	final String DEFAULT_CHAR_ENCODING = "UTF-8";
 	
 	final String DEFAULT_FILEPATH = "C:\\wow\\auction_house\\snapshots";
+	
+	final String[] REALM_LIST = {
+			"Saurfang",
+			"Khaz'goroth"
+	};
 }

@@ -43,7 +43,7 @@ public class AuctionDataScheduler implements AuctionHouseConstants {
 		map.put("FILEPATH", filepath);
 		jd.setJobDataMap(map);
 		SimpleTrigger st=new SimpleTrigger(realm + "-" + region + "-" + "auctionTrigger", 
-				sched.DEFAULT_GROUP, new Date(), null, SimpleTrigger.REPEAT_INDEFINITELY, 60L*1000L);
+				sched.DEFAULT_GROUP, new Date(), null, SimpleTrigger.REPEAT_INDEFINITELY, 600L*1000L);
 		sched.scheduleJob(jd, st);
 	}
 	
@@ -57,7 +57,11 @@ public class AuctionDataScheduler implements AuctionHouseConstants {
 			System.exit(1);
 		}
 		try {
-			ads.setupRetrievalJob(DEFAULT_REALM, DEFAULT_REGION, DEFAULT_FILEPATH);
+			// set up a job for each realm
+			// TODO offset the time to start the job by a bit
+			for (String realm : REALM_LIST) {
+				ads.setupRetrievalJob(realm, DEFAULT_REGION, DEFAULT_FILEPATH);
+			}
 		} catch(Exception e) {
 			e.printStackTrace();
 			try {

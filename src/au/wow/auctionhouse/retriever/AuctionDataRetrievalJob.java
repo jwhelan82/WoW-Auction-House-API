@@ -10,7 +10,8 @@ import org.quartz.JobExecutionException;
 
 import au.wow.auctionhouse.comms.AuctionHouseComms;
 import au.wow.auctionhouse.dao.AuctionHouseDAO;
-import au.wow.auctionhouse.dao.AuctionHouseDAOImpl;
+import au.wow.auctionhouse.dao.AuctionHouseDAOFactory;
+import au.wow.auctionhouse.dao.AuctionHouseDAOFileImpl;
 import au.wow.auctionhouse.model.AuctionHouseSnapshot;
 import au.wow.auctionhouse.model.AuctionHouseSnapshotDetails;
 
@@ -29,6 +30,10 @@ public class AuctionDataRetrievalJob implements Job {
 			String realm = getNonEmptyStringFromJobMap(data, "REALM");
 			String region = getNonEmptyStringFromJobMap(data, "REGION");
 			String path = getNonEmptyStringFromJobMap(data, "FILEPATH");
+			AuctionHouseDAOFactory.DAOType daotype = (AuctionHouseDAOFactory.DAOType) data.get("DAOtype");
+			if (daotype == null) {
+				daotype = AuctionHouseDAOFactory.DAOType.DATABASE_STORE;
+			}
 			
 			// construct a realm specific path
 			path = String.format("%s\\%s\\%s", path, region, realm);
@@ -44,7 +49,7 @@ public class AuctionDataRetrievalJob implements Job {
 			//ahComms.setProxyHost("192.168.105.2");
 			//ahComms.setProxyPort(3128);
 			AuctionHouseSnapshotDetails snapshotDetails = ahComms.getAuctionHouseSnapshotDetails(region, realm);
-			AuctionHouseDAO dao = new AuctionHouseDAOImpl();
+			AuctionHouseDAO dao = AuctionHouseDAOFactory.getInstance(daotype);
 			boolean created = false;
 			
 			if (!dao.isLatestSnapshot(path, snapshotDetails)) {
