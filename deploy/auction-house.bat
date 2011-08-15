@@ -1,0 +1,1 @@
+java -cp auctionhouse.jar;quartz-1.6.5.jar;commons-collections.jar;json.jar;commons-logging.jar au.wow.auctionhouse.retriever.AuctionDataScheduler

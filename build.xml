@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+
+<project name="wow-ah-apps" default="all" basedir=".">
+	
+	<property name="output" value="bin" />
+	<property name="source" value="src" />
+	
+	<path id="classpath">
+        <pathelement location="lib/commons-collections.jar" />
+		<pathelement location="lib/commons-logging.jar" />
+		<pathelement location="lib/json.jar" />
+		<pathelement location="lib/quartz-1.6.5.jar" />
+	</path>
+	
+	<target name="all" depends="compile,jar,deploy" />
+	
+	<target name="compile">
+		<mkdir dir="${output}"/>
+		<javac srcdir="${source}" destdir="${output}" source="1.6" target="1.6" optimize="off" debug="true">
+	      	<include name="**/*.java"/>
+            <classpath>
+                <path refid="classpath" />
+            </classpath>
+        </javac>
+	</target>
+
+	<target name="jar" depends="compile">
+		<mkdir dir="${output}-Jar"/>
+		<jar jarfile="${output}-Jar/auctionhouse.jar">
+			<fileset dir="${output}"/>
+		</jar>
+	</target>
+	
+	<target name="deploy">
+		<mkdir dir="application" />
+		<copy todir="application" overwrite="true" >
+		    <fileset dir="${output}-Jar" />
+			<fileset file="lib/commons-collections.jar" />
+			<fileset file="lib/commons-logging.jar" />
+			<fileset file="lib/json.jar" />
+			<fileset file="lib/quartz-1.6.5.jar" />
+			<fileset file="deploy/auction-house.bat" />
+  		</copy>
+	</target>
+	
+	<target name="clean" depends="" >
+		<delete dir="${output}" />
+		<delete dir="${output}-Jar" />
+		<delete dir="application" />
+		<mkdir dir="${output}"/>
+	</target>
+	
+</project>
