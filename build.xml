@@ -8,6 +8,7 @@
 	<path id="classpath">
         <pathelement location="lib/commons-collections.jar" />
 		<pathelement location="lib/commons-logging.jar" />
+		<pathelement location="lib/ejb3-persistence.jar" />
 		<pathelement location="lib/json.jar" />
 		<pathelement location="lib/quartz-1.6.5.jar" />
 	</path>
