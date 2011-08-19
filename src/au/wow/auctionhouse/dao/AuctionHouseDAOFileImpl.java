@@ -6,16 +6,14 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import au.wow.auctionhouse.exception.AuctionHouseException;
-import au.wow.auctionhouse.model.AuctionHouseSnapshot;
 import au.wow.auctionhouse.model.AuctionHouseSnapshotDetails;
 import au.wow.auctionhouse.model.AuctionItem;
-import au.wow.auctionhouse.model.Faction;
 
 /**
  * This is called a DAO but really just saves to a file.
@@ -109,6 +107,8 @@ public class AuctionHouseDAOFileImpl implements AuctionHouseDAO {
 	
 	public JSONObject readAuctionHouseSnapshotFromFile(String path) throws AuctionHouseException {
 		
+		BufferedReader reader = null;
+		
 		try {
 			File snapshotFile = new File(path);
 			
@@ -118,7 +118,7 @@ public class AuctionHouseDAOFileImpl implements AuctionHouseDAO {
 			
 			// read all lines in the file first, we can parse them into faction specific 
 			// auction items later.
-			BufferedReader reader = new BufferedReader(new FileReader(snapshotFile));
+			reader = new BufferedReader(new FileReader(snapshotFile));
 			String input = reader.readLine();
 			StringBuffer lines = new StringBuffer();
 			
@@ -128,10 +128,19 @@ public class AuctionHouseDAOFileImpl implements AuctionHouseDAO {
 			}
 			
 			return new JSONObject(lines.toString());
-		} catch (Exception e) {
-			
+		} catch (JSONException e) {
+			throw new AuctionHouseException("Error when construcing JSON object for auction house data: " + e);
+		} catch (IOException e) {
+			throw new AuctionHouseException("Error reading from input stream: " + e);
+		} finally {
+			if (reader != null) {
+				try {
+					reader.close();
+				} catch (IOException e) {
+					throw new AuctionHouseException("Error when trying to close input stream!" + e);
+				}
+			}
 		}
-		return null;
 	}
 	
 	/**
