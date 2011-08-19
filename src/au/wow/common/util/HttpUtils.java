@@ -35,7 +35,7 @@ public class HttpUtils {
 		
 		HttpURLConnection connection = (HttpURLConnection) (proxy == null ? 
 				url.openConnection() : url.openConnection(proxy));
-	
+		
 		connection.setRequestMethod(GET);
 
 		connection.setAllowUserInteraction(false);
@@ -57,7 +57,11 @@ public class HttpUtils {
 		while ((len = bis.read(data)) > 0) {
 			baos.write(data, 0, len);
 		}
-		return baos.toString();
+		String results = baos.toString();
+		baos.close();
+		bis.close();
+		
+		return results;
 	}
 	
 }
