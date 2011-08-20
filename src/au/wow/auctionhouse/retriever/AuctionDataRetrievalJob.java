@@ -11,8 +11,6 @@ import org.quartz.JobExecutionException;
 import au.wow.auctionhouse.comms.AuctionHouseComms;
 import au.wow.auctionhouse.dao.AuctionHouseDAO;
 import au.wow.auctionhouse.dao.AuctionHouseDAOFactory;
-import au.wow.auctionhouse.dao.AuctionHouseDAOFileImpl;
-import au.wow.auctionhouse.model.AuctionHouseSnapshot;
 import au.wow.auctionhouse.model.AuctionHouseSnapshotDetails;
 
 public class AuctionDataRetrievalJob implements Job {

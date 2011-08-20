@@ -9,5 +9,4 @@ public interface Summary<E extends SummaryType> {
 	Collection<E> getSummaryItems();
 	void addItem(AuctionItem item);
 	void summerise();
-	void addToSummaryData(UpdateSummaryData data);
 }

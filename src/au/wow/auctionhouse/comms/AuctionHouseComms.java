@@ -1,7 +1,6 @@
 package au.wow.auctionhouse.comms;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.HashMap;
@@ -185,18 +184,6 @@ public class AuctionHouseComms implements AuctionHouseConstants {
 		File file = new File(filename);
 		String data = FileUtils.readFileString(file);
 		return new JSONObject(data);
-	}
-	
-	/**
-	 * From some XML document, create a JSON object from some embedded JSON.
-	 * 
-	 * @param doc
-	 * @param elementName
-	 * @return JSONObject 
-	 */
-	private JSONObject getJSONFromXml(Document doc, String elementName) {
-	
-		return null;
 	}
 
 	public int getProxyPort() {
