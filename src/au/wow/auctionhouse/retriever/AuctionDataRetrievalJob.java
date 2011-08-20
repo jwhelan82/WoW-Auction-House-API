@@ -40,7 +40,6 @@ public class AuctionDataRetrievalJob implements Job {
 			
 			log("Checking auction data updates for realm '" + realm + "' on region '" + region + "'");
 			
-			AuctionHouseSnapshot snapshot = null;
 			Date today = new Date();
 			SimpleDateFormat df = new SimpleDateFormat("dd-MM-yy");
 			path += "\\" + df.format(today);
