@@ -1,6 +1,7 @@
 package au.wow.auctionhouse.summary;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import org.json.JSONException;
@@ -8,7 +9,9 @@ import org.json.JSONObject;
 
 import au.wow.auctionhouse.comms.AuctionHouseComms;
 import au.wow.auctionhouse.model.AuctionHouseSnapshot;
+import au.wow.auctionhouse.summary.summaries.TopPlayerSummariser;
 import au.wow.auctionhouse.summary.summaries.TotalsSummary;
+import au.wow.auctionhouse.summary.types.TopPlayerSummary;
 
 public class SummaryTestClass {
 
@@ -26,6 +29,22 @@ public class SummaryTestClass {
 
 		for (SummaryType summary : data) {
 			System.out.println(summary.toString());
+		}
+		
+		List<SummaryType> playerData = sum.createSummary(snapshot.getAllianceAuctions(), new TopPlayerSummariser());
+		Collections.sort(playerData, new TopPlayerSummariser.MostAuctionsComparator());
+		
+		System.out.println("Top 10 players ordered by number of auctions: ");
+		for (int i = 0; i < 10; i++) {
+			TopPlayerSummary player = (TopPlayerSummary) playerData.get(i);
+			System.out.printf("%2d %15s %d %d\n", i + 1, player.getPlayerName(), player.getNumberOfAuctions(), player.getTotalBuyout());
+		}
+		
+		Collections.sort(playerData, new TopPlayerSummariser.HighestBuyoutComparator());
+		System.out.println("\nTop 10 players ordered by total buyout price: ");
+		for (int i = 0; i < 10; i++) {
+			TopPlayerSummary player = (TopPlayerSummary) playerData.get(i);
+			System.out.printf("%2d %15s %3d %d\n", i + 1, player.getPlayerName(), player.getNumberOfAuctions(), player.getTotalBuyout());
 		}
 	}
 }
