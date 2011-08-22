@@ -2,6 +2,7 @@ package au.wow.auctionhouse.comms;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +11,6 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Document;
 
 import au.wow.auctionhouse.exception.AuctionHouseException;
 import au.wow.auctionhouse.model.AuctionDuration;
@@ -86,6 +86,13 @@ public class AuctionHouseComms implements AuctionHouseConstants {
 		}
 	}
 	
+	public void getAuctionHouseDataAsOutputStream(OutputStream out, AuctionHouseSnapshotDetails details) throws AuctionHouseException {
+		try {
+			FileUtils.copyStreams(HttpUtils.getHttpConnection(details.getUrl()).getInputStream(), out);
+		} catch (IOException e) {
+			throw new AuctionHouseException(e);
+		}
+	}
 	
 	public JSONObject getAuctionHouseData(AuctionHouseSnapshotDetails snapshotDetails) throws AuctionHouseException {
 		try {
@@ -110,10 +117,14 @@ public class AuctionHouseComms implements AuctionHouseConstants {
 	 * Use this method with caution, it should be called infrequently and should not be called
 	 * in UI-centric applications unless appropriately handled (e.g. in a separate thread).
 	 * 
+	 * @Deprecated use getAuctionHouseDataAsOutputStream instead as it does not create an object 
+	 * in memory before saving to file.
+	 * 
 	 * @param snapshotDetails
 	 * @return
 	 * @throws AuctionHouseException
 	 */
+	@Deprecated
 	public AuctionHouseSnapshot getAuctionHouseSnapshot(AuctionHouseSnapshotDetails snapshotDetails) throws AuctionHouseException {
 		try {
 			JSONObject ahData = getJSONFromUrl(snapshotDetails.getUrl());

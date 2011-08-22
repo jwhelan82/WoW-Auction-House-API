@@ -59,5 +59,7 @@ public interface AuctionHouseDAO {
 	 */
 
 	boolean saveAuctionHouseDataToFile(String path, AuctionHouseSnapshotDetails snapshotDetails, JSONObject auctionHouseData) throws AuctionHouseException;
+	
+	public boolean saveAuctionHouseDataToFile(String path, AuctionHouseSnapshotDetails snapshotDetails) throws AuctionHouseException;
 
 }

@@ -3,14 +3,18 @@ package au.wow.auctionhouse.dao;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import au.wow.auctionhouse.comms.AuctionHouseComms;
 import au.wow.auctionhouse.exception.AuctionHouseException;
 import au.wow.auctionhouse.model.AuctionHouseSnapshotDetails;
 import au.wow.auctionhouse.model.AuctionItem;
@@ -153,6 +157,45 @@ public class AuctionHouseDAOFileImpl implements AuctionHouseDAO {
 	private File getFileForSnapshot(String path, AuctionHouseSnapshotDetails snapshotDetails) {
 		File dirPath = new File(path);
 		return new File(dirPath.getAbsolutePath() + "\\" + snapshotDetails.getLastModified());
+	}
+
+	@Override
+	public boolean saveAuctionHouseDataToFile(String path,
+			AuctionHouseSnapshotDetails snapshotDetails) throws AuctionHouseException {
+		File file = getFileForSnapshot(path, snapshotDetails);
+		
+		AuctionHouseComms comms = new AuctionHouseComms();
+		OutputStream fos = null;
+		try {
+			
+			if (!file.exists()) {
+				if (!file.createNewFile()) {
+					return false;
+				}
+			}
+			fos = new FileOutputStream(file);
+			comms.getAuctionHouseDataAsOutputStream(fos, snapshotDetails);
+			
+			fos.close();
+			return true;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if (fos != null) {
+					fos.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return false;
 	}
 	
 }

@@ -43,15 +43,14 @@ public class AuctionDataRetrievalJob implements Job {
 			path += "\\" + df.format(today);
 			
 			AuctionHouseComms ahComms = new AuctionHouseComms();
-			//ahComms.setProxyHost("192.168.105.2");
-			//ahComms.setProxyPort(3128);
+//			ahComms.setProxyHost("192.168.105.2");
+//			ahComms.setProxyPort(3128);
 			AuctionHouseSnapshotDetails snapshotDetails = ahComms.getAuctionHouseSnapshotDetails(region, realm);
 			AuctionHouseDAO dao = AuctionHouseDAOFactory.getInstance(daotype);
 			boolean created = false;
 			
 			if (!dao.isLatestSnapshot(path, snapshotDetails)) {
-				JSONObject jsonData = ahComms.getAuctionHouseData(snapshotDetails);
-				created = dao.saveAuctionHouseDataToFile(path, snapshotDetails, jsonData);
+				created = dao.saveAuctionHouseDataToFile(path, snapshotDetails);
 			}
 			
 			if (created) {
