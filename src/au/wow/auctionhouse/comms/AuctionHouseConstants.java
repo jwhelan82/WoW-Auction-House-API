@@ -12,6 +12,6 @@ public interface AuctionHouseConstants {
 	
 	final String[] REALM_LIST = {
 			"Saurfang",
-			"Khaz'goroth"
+			"Dreadmaul"
 	};
 }
