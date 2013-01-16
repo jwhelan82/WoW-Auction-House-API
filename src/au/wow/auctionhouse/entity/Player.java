@@ -1,7 +1,15 @@
 package au.wow.auctionhouse.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import au.wow.auctionhouse.model.Faction;
 
 
 /**
@@ -17,7 +25,8 @@ public class Player implements Serializable {
 	@Column(name="player_id")
 	private String playerId;
 
-	private String faction;
+	@Enumerated(EnumType.STRING)
+	private Faction faction;
 
 	private String realm;
 
@@ -32,11 +41,11 @@ public class Player implements Serializable {
 		this.playerId = playerId;
 	}
 
-	public String getFaction() {
+	public Faction getFaction() {
 		return this.faction;
 	}
 
-	public void setFaction(String faction) {
+	public void setFaction(Faction faction) {
 		this.faction = faction;
 	}
 
