@@ -9,8 +9,8 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="updates")
-public class Update implements Serializable {
+@Table(name="auction_house_updates")
+public class AuctionHouseUpdate implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -23,7 +23,7 @@ public class Update implements Serializable {
 	@Column(name="update_time")
 	private int updateTime;
 
-    public Update() {
+    public AuctionHouseUpdate() {
     }
 
 	public int getUpdateId() {

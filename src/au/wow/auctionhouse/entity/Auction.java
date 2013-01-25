@@ -1,8 +1,19 @@
 package au.wow.auctionhouse.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
+
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import au.wow.auctionhouse.model.Duration;
 
 
 /**
@@ -27,12 +38,13 @@ public class Auction implements Serializable {
 	private BigDecimal quantity;
 
 	@Column(name="time_left")
-	private String timeLeft;
+	@Enumerated(EnumType.STRING)
+	private Duration timeLeft;
 
 	//uni-directional many-to-one association to Update
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="update_id")
-	private Update update;
+	private AuctionHouseUpdate update;
 
 	//uni-directional many-to-one association to Item
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -87,19 +99,19 @@ public class Auction implements Serializable {
 		this.quantity = quantity;
 	}
 
-	public String getTimeLeft() {
+	public Duration getTimeLeft() {
 		return this.timeLeft;
 	}
 
-	public void setTimeLeft(String timeLeft) {
+	public void setTimeLeft(Duration timeLeft) {
 		this.timeLeft = timeLeft;
 	}
 
-	public Update getUpdate() {
+	public AuctionHouseUpdate getUpdate() {
 		return this.update;
 	}
 
-	public void setUpdate(Update update) {
+	public void setUpdate(AuctionHouseUpdate update) {
 		this.update = update;
 	}
 	

@@ -2,20 +2,24 @@
 drop table auction;
 drop table item;
 drop table player;
-drop table updates;
+drop table auction_house_updates;
 
-create table updates (
+create table auction_house_updates (
 	update_id integer not null auto_increment primary key,
 	update_time integer not null,
 	realm varchar(40)
 );
 
 
+create table factions (
+	name varchar(8) primary key
+);
+
 create table players (
 	player_id varchar(20) primary key,
 	realm varchar(40) not null,
-	faction char(1) not null,
-	constraint player_faction check (faction in ('H', 'A'))
+	faction varchar(8) not null,
+	constraint player_faction references factions(name)
 );
 
 create table items (
@@ -34,7 +38,7 @@ create table auctions (
 	quantity decimal(3, 0),
 	time_left char(1),
 	primary key (auction_id, update_id),
-	foreign key (update_id) references updates(update_id),
+	foreign key (update_id) references auction_house_updates(update_id),
 	foreign key (item_id) references items(item_id),
 	foreign key (player_id) references players(player_id),
 	constraint auction_ah check (auction_house in ('A', 'H', 'N')),

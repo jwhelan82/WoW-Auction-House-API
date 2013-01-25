@@ -1,12 +1,12 @@
 package au.wow.auctionhouse.model;
 
 /**
- * Enum to store the durations of the auctions.
+ * Enum representing the remaining duration of an auction.
  * 
  * @author James Whelan
  *
  */
-public enum AuctionDuration {
+public enum Duration {
 
 	SHORT(15, 0, 0), MEDIUM(0, 2, 0), LONG(0, 12, 0), VERY_LONG(0, 0, 1);
 	
@@ -14,7 +14,7 @@ public enum AuctionDuration {
 	private Integer hours;
 	private Integer days;
 	
-	private AuctionDuration(Integer minutes, Integer hours, Integer days) {
+	private Duration(Integer minutes, Integer hours, Integer days) {
 		this.minutes = minutes;
 		this.hours = hours;
 		this.days = days;

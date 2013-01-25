@@ -14,7 +14,7 @@ public class AuctionItem {
 	private Integer quantity;
 	private Integer bidPrice;
 	private Integer buyoutPrice;
-	private AuctionDuration timeLeft;
+	private Duration timeLeft;
 	private Faction faction;
 	
 	public Long getId() {
@@ -53,10 +53,10 @@ public class AuctionItem {
 	public void setBuyoutPrice(Integer buyoutPrice) {
 		this.buyoutPrice = buyoutPrice;
 	}
-	public AuctionDuration getTimeLeft() {
+	public Duration getTimeLeft() {
 		return timeLeft;
 	}
-	public void setTimeLeft(AuctionDuration timeLeft) {
+	public void setTimeLeft(Duration timeLeft) {
 		this.timeLeft = timeLeft;
 	}
 	
