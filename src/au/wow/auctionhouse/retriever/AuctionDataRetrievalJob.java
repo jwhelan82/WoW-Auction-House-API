@@ -2,13 +2,13 @@ package au.wow.auctionhouse.retriever;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.json.JSONObject;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 import au.wow.auctionhouse.comms.AuctionHouseComms;
+import au.wow.auctionhouse.comms.AuctionHouseConstants;
 import au.wow.auctionhouse.dao.AuctionHouseDAO;
 import au.wow.auctionhouse.dao.AuctionHouseDAOFactory;
 import au.wow.auctionhouse.model.AuctionHouseSnapshotDetails;
@@ -30,7 +30,7 @@ public class AuctionDataRetrievalJob implements Job {
 			String path = getNonEmptyStringFromJobMap(data, "FILEPATH");
 			AuctionHouseDAOFactory.DAOType daotype = (AuctionHouseDAOFactory.DAOType) data.get("DAOtype");
 			if (daotype == null) {
-				daotype = AuctionHouseDAOFactory.DAOType.DATABASE_STORE;
+				daotype = AuctionHouseDAOFactory.DAOType.FILE_STORE;
 			}
 			
 			// construct a realm specific path
@@ -43,8 +43,8 @@ public class AuctionDataRetrievalJob implements Job {
 			path += "\\" + df.format(today);
 			
 			AuctionHouseComms ahComms = new AuctionHouseComms();
-//			ahComms.setProxyHost("192.168.105.2");
-//			ahComms.setProxyPort(3128);
+			ahComms.setProxyHost(AuctionHouseConstants.PROXY_HOST);
+			ahComms.setProxyPort(AuctionHouseConstants.PROXY_PORT);
 			AuctionHouseSnapshotDetails snapshotDetails = ahComms.getAuctionHouseSnapshotDetails(region, realm);
 			AuctionHouseDAO dao = AuctionHouseDAOFactory.getInstance(daotype);
 			boolean created = false;

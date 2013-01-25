@@ -13,7 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import au.wow.auctionhouse.exception.AuctionHouseException;
-import au.wow.auctionhouse.model.AuctionDuration;
+import au.wow.auctionhouse.model.Duration;
 import au.wow.auctionhouse.model.AuctionHouseSnapshot;
 import au.wow.auctionhouse.model.AuctionHouseSnapshotDetails;
 import au.wow.auctionhouse.model.AuctionItem;
@@ -88,7 +88,8 @@ public class AuctionHouseComms implements AuctionHouseConstants {
 	
 	public void getAuctionHouseDataAsOutputStream(OutputStream out, AuctionHouseSnapshotDetails details) throws AuctionHouseException {
 		try {
-			FileUtils.copyStreams(HttpUtils.getHttpConnection(details.getUrl()).getInputStream(), out);
+			FileUtils.copyStreams(
+					HttpUtils.getHttpConnection(details.getUrl(), AuctionHouseConstants.PROXY_HOST, AuctionHouseConstants.PROXY_PORT).getInputStream(), out);
 		} catch (IOException e) {
 			throw new AuctionHouseException(e);
 		}
@@ -167,7 +168,7 @@ public class AuctionHouseComms implements AuctionHouseConstants {
 				item.setItemId(obj.getInt("item"));
 				item.setOwner(obj.getString("owner"));
 				item.setQuantity(obj.getInt("quantity"));
-				item.setTimeLeft(AuctionDuration.valueOf(obj.getString("timeLeft")));
+				item.setTimeLeft(Duration.valueOf(obj.getString("timeLeft")));
 				auctionItems.add(item);
 			}
 		}
