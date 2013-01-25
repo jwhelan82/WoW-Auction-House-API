@@ -109,44 +109,6 @@ public class AuctionHouseDAOFileImpl implements AuctionHouseDAO {
 		}
 	}
 	
-	public JSONObject readAuctionHouseSnapshotFromFile(String path) throws AuctionHouseException {
-		
-		BufferedReader reader = null;
-		
-		try {
-			File snapshotFile = new File(path);
-			
-			if (!snapshotFile.exists()) {
-				throw new AuctionHouseException("No snapshot file could be found at " + path);
-			} 
-			
-			// read all lines in the file first, we can parse them into faction specific 
-			// auction items later.
-			reader = new BufferedReader(new FileReader(snapshotFile));
-			String input = reader.readLine();
-			StringBuffer lines = new StringBuffer();
-			
-			while(input != null) {
-				lines.append(input);
-				input = reader.readLine();
-			}
-			
-			return new JSONObject(lines.toString());
-		} catch (JSONException e) {
-			throw new AuctionHouseException("Error when construcing JSON object for auction house data: " + e);
-		} catch (IOException e) {
-			throw new AuctionHouseException("Error reading from input stream: " + e);
-		} finally {
-			if (reader != null) {
-				try {
-					reader.close();
-				} catch (IOException e) {
-					throw new AuctionHouseException("Error when trying to close input stream!" + e);
-				}
-			}
-		}
-	}
-	
 	/**
 	 * Returns a file to be used for a snapshot.
 	 *  
