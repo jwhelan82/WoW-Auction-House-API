@@ -12,7 +12,7 @@ import java.util.Set;
 public class User {
 	String username;
 	Set<DeliveryPreference> deliveryPreferences;
-	Set<Report> subscribedReports;
+	Set<ReportType> subscribedReports;
 	
 	public User(String username) {
 		this.username = username;
@@ -30,10 +30,10 @@ public class User {
 	public void setDeliveryPreferences(Set<DeliveryPreference> deliveryPreferences) {
 		this.deliveryPreferences = deliveryPreferences;
 	}
-	public Set<Report> getSubscribedReports() {
+	public Set<ReportType> getSubscribedReports() {
 		return subscribedReports;
 	}
-	public void setSubscribedReports(Set<Report> subscribedReports) {
+	public void setSubscribedReports(Set<ReportType> subscribedReports) {
 		this.subscribedReports = subscribedReports;
 	}
 	

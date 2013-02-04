@@ -7,7 +7,7 @@ package org.au.jwhelan.wowreports.reporting;
  * @author jwhelan
  *
  */
-public class Report {
+public class ReportType {
 	
 	private Integer id;
 	private String name;
